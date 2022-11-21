@@ -18,16 +18,17 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id")
-//    OrderDetail orderDetail;
+    @OneToOne(  fetch = FetchType.LAZY,
+                mappedBy = "book")
+    @JoinColumn(name = "order_id")
+    Order order;
 
     @NotNull(message = "Product name is required.")
     @Basic(optional = false)
     private String name;
 
     @Builder.Default
-    private int stock = 1;
+    private Integer stock = 1;
 
     private Double price;
 }

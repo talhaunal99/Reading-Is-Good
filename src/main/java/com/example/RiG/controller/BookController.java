@@ -30,7 +30,6 @@ public class BookController {
     @PutMapping("/updateStock/{bookId}")
     public ResponseEntity<Book> updateBookStock(@PathVariable String bookId,
                                                 @RequestParam int stock) {
-
         Book response = bookService.updateBookStock(bookId, stock);
 
         if(response != null) {

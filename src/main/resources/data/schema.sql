@@ -18,14 +18,22 @@ price DOUBLE NOT NULL
 DROP TABLE IF EXISTS ORDERS;
 CREATE TABLE ORDERS (
 order_id INT AUTO_INCREMENT PRIMARY KEY,
-customer_id INT FOREIGN KEY,
-order_date TIMESTAMP
+customer_id INT,
+FOREIGN KEY(customer_id) REFERENCES CUSTOMER(customer_id),
+book_id INT,
+FOREIGN KEY(book_id) REFERENCES BOOK(book_id),
+order_date TIMESTAMP,
+quantity INT NOT NULL
 );
+
+
 
 DROP TABLE IF EXISTS ORDER_DETAIL;
 CREATE TABLE ORDER_DETAIL (
 order_detail_id INT AUTO_INCREMENT PRIMARY KEY,
-order_id INT FOREIGN KEY,
-book_id INT FOREIGN KEY,
+order_id INT,
+FOREIGN KEY(order_id) REFERENCES ORDERS(order_id),
+book_id INT,
+FOREIGN KEY(book_id) REFERENCES BOOK(book_id),
 quantity INT NOT NULL
 );

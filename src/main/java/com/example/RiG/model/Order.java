@@ -1,5 +1,6 @@
 package com.example.RiG.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Orders")
 public class Order {
 
     @Id
@@ -21,23 +23,35 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_order_id", nullable = false)
     private Customer customer;
 
-    @OneToMany
-    private List<OrderDetail> orderDetails;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_order_id")
+    private Book book;
+
 
     @CreationTimestamp
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
+
+    private Integer quantity;
 
     @Transient
     public Double getTotalOrderPrice() {
-        double sum = 0D;
-        List<OrderDetail> orderDetails = getOrderDetails();
-        for (OrderDetail od : orderDetails) {
-            sum += od.getSubtotal();
-        }
-        return sum;
+        return quantity * book.getPrice();
     }
+
+
+    //    @OneToMany
+//    private List<OrderDetail> orderDetails;
+
+
+    //    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "customer_id")
+//    private Customer customer;
+
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//    private List<OrderDetail> orderDetails;
 
 }

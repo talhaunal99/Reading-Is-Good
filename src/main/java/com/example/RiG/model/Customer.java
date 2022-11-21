@@ -1,10 +1,12 @@
 package com.example.RiG.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Setter
@@ -28,10 +30,15 @@ public class Customer {
     private String phone;
     private String address;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "order_id")
-    @JoinTable( name = "customer_order",
-                joinColumns = {@JoinColumn(name = "customer_id")},
-                inverseJoinColumns = {@JoinColumn(name = "order_id")})
-    private List<Order> orders;
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private Set<Order> orders;
+
+
+//    @ManyToMany(cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "order_id")
+//    @JoinTable( name = "customer_order",
+//                joinColumns = {@JoinColumn(name = "customer_id")},
+//                inverseJoinColumns = {@JoinColumn(name = "order_id")})
+//    private List<Order> orders;
 }
